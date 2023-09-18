@@ -5,33 +5,23 @@ const bcrypt = require("bcryptjs");
 module.exports.Signup = async (req, res, next) => {
   try {
     const { email, password, username, createdAt } = req.body;
-
-    // Check if a user with the same email already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      // If user already exists, send a response indicating that
       return res.json({ message: "User already exists" });
     }
-
     const user = await User.create({ email, password, username, createdAt });
-
     // Generate a secret token for this user
     const token = createSecretToken(user._id);
-
     // Set the token as a cookie in the response
     res.cookie("token", token, {
       withCredentials: true,
       httpOnly: false,
     });
-
     res.status(201).json({ message: "User signed in successfully", success: true, user });
-
-    // Move on to the next middleware or route handler
     next();
   } catch (error) {
     console.error(error);
-  }
-};
+  }};
 
 module.exports.Login = async (req, res, next) => {
   try {
