@@ -24,13 +24,11 @@ module.exports.Signup = async (req, res, next) => {
       httpOnly: false,
     });
 
-    // Send a success response indicating that the user is signed up
     res.status(201).json({ message: "User signed in successfully", success: true, user });
 
     // Move on to the next middleware or route handler
     next();
   } catch (error) {
-    // Handle any errors that may occur during this process
     console.error(error);
   }
 };

@@ -8,7 +8,7 @@
     "start": "nodemon index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Mahesh Abeykoon",
   "license": "ISC",
   "dependencies": {
     "cookie-parser": "^1.4.6",
