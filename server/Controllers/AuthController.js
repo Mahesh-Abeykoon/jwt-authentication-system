@@ -21,6 +21,7 @@ module.exports.Signup = async (req, res, next) => {
     next();
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: "Internal server error" });
   }};
 
 module.exports.Login = async (req, res, next) => {
