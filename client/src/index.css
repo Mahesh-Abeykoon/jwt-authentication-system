@@ -128,3 +128,9 @@ span a {
     font-size: 1.5rem;
   }
 }
+
+.custom-toast {
+  font-size: 18px;
+margin: auto;  padding: 7px;
+
+}
