@@ -10,10 +10,9 @@ module.exports.Signup = async (req, res, next) => {
       return res.json({ message: "User already exists" });
     }
     const user = await User.create({ email, password, username, createdAt });
-    // Generate a secret token for this user
-    const token = createSecretToken(user._id);
-    // Set the token as a cookie in the response
-    res.cookie("token", token, {
+    const token = createSecretToken(user._id);     // Generate a secret token for this user
+    debugger
+    res.cookie("token", token, {     // Set the token as a cookie in the response
       withCredentials: true,
       httpOnly: false,
     });
@@ -27,26 +26,21 @@ module.exports.Signup = async (req, res, next) => {
 module.exports.Login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-
     if (!email || !password) {
       return res.json({ message: 'All fields are required' });
     }
-
+    
     const user = await User.findOne({ email });
     if (!user) {
-      return res.json({ message: 'Incorrect password or email' });
+      return res.json({ message: 'Incorrect email' });
     }
-
-    // Compare the provided password with the stored hashed password
-    const auth = await bcrypt.compare(password, user.password);
+    const auth = await bcrypt.compare(password, user.password); // Compare the provided password with the stored hashed password
     if (!auth) {
-      return res.json({ message: 'Incorrect password or email' });
+      return res.json({ message: 'Incorrect password' });
     }
-    // If the passwords match, generate a secret token for the user
-    const token = createSecretToken(user._id);
+    const token = createSecretToken(user._id);    // If the passwords match, generate a secret token for the user
 
-    // Set the token as a cookie in the response
-    res.cookie("token", token, {
+    res.cookie("token", token, {     // Set the token as a cookie in the response
       withCredentials: true,
       httpOnly: false,
     });
@@ -57,4 +51,3 @@ module.exports.Login = async (req, res, next) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
